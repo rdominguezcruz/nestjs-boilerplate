@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nestjs-boilerplate
+  labels:
+    app: nestjs-boilerplate
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nestjs-boilerplate
+  template:
+    metadata:
+      labels:
+        app: nestjs-boilerplate
+    spec:
+      containers:
+        - name: nestjs-boilerplate
+          image: localhost:32000/nestjs-boilerplate:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3000"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "300m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
