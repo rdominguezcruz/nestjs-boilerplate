@@ -4,6 +4,8 @@ metadata:
   name: nestjs-boilerplate
   labels:
     app: nestjs-boilerplate
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   replicas: 2
   selector:
@@ -24,6 +26,9 @@ spec:
               value: "production"
             - name: PORT
               value: "3000"
+          envFrom:
+            - secretRef:
+                name: nestjs-boilerplate-secrets
           resources:
             requests:
               memory: "128Mi"
